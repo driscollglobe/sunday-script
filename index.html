@@ -5025,7 +5025,11 @@ function animateModels(frame){if(!MODEL.ready||!frame)return;const ctx=MODEL.ctx
     // run where he is going (faster when slow, and faster the sharper the cut: a plant-and-turn) and
     // never backpedals or strafes.
     const line=(p.pos==='OL'||p.pos==='DL')&&ctx.phase==='live'&&(p.engaged||frame.t<1.2);P.facingLocked=false;
-    if(line){want=base;P.facingLocked=true;}else if(reading&&((p.vy>0&&p.vy>Math.abs(p.vx)*.5)||(sp<5&&Math.abs(p.vx)>Math.abs(p.vy)*1.5))){want=Math.PI;P.facingLocked=true;}
+    // Quarterback: eyes downfield while he holds the ball (he backpedals or shuffles on the drop), and
+    // squared to his target from the windup through the follow-through.
+    const R=ctx.result,qbHold=!def&&i===0&&ctx.phase==='live'&&(frame.ball.mode==='held'||(R&&R.throwTime!=null&&frame.t<=R.throwTime+.5));
+    if(qbHold){want=0;if(R&&R.target&&R.throwTime!=null&&frame.t>=R.throwTime-.45){const q=frame.players[SPOT_INDEX[R.target]];if(q)want=Math.atan2(-(q.x-p.x),q.y-p.y);}P.facingLocked=true;}
+    else if(line){want=base;P.facingLocked=true;}else if(reading&&((p.vy>0&&p.vy>Math.abs(p.vx)*.5)||(sp<5&&Math.abs(p.vx)>Math.abs(p.vy)*1.5))){want=Math.PI;P.facingLocked=true;}
     if(dtSim===0&&ctx.phase!=='live')P.heading=want;else{let d=((want-P.heading+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;const rate=ANIM.turnRate+10*clamp(1-sp/6,0,1)+(P.facingLocked?0:14*Math.min(1,Math.abs(d))),m=rate*Math.max(dtSim,1/60);P.heading+=clamp(d,-m,m);}
     // Lean into acceleration along the heading.
     let acc=0;if(P.lastV&&dtSim>0){const ax=(p.vx-P.lastV[0])/dtSim,ay=(p.vy-P.lastV[1])/dtSim;acc=-ax*Math.sin(P.heading)+ay*Math.cos(P.heading);}P.lastV=[p.vx,p.vy];P.lastT=frame.t;
