@@ -1,0 +1,151 @@
+{
+  "about": "Paint guide for assets/models/player.glb. Pixel rects are in the texture's own pixels, top-left origin (the same space as a canvas drawImage). glTF textures load with flipY=false, so a CanvasTexture used as a replacement map must also set flipY=false.",
+  "jersey": {
+    "material": "jersey",
+    "texture_size": [
+      1024,
+      512
+    ],
+    "blank": "assets/models/jersey_blank.jpg",
+    "body_color": "multiply or fill the whole texture with uniforms.*.jersey_body, keep the blank's shading",
+    "orientation": "front and back panels are stored upside down: the neck is at the bottom of the image and the hem at the top. Draw anything on them flipped vertically (scale(1,-1)). Left-to-right order is NOT mirrored.",
+    "regions": {
+      "front_number": {
+        "x": 532,
+        "y": 179,
+        "w": 123,
+        "h": 128,
+        "flip_y": true,
+        "flip_x": false
+      },
+      "chest_wordmark": {
+        "x": 537,
+        "y": 304,
+        "w": 112,
+        "h": 31,
+        "flip_y": true,
+        "flip_x": false
+      },
+      "back_number": {
+        "x": 814,
+        "y": 179,
+        "w": 128,
+        "h": 141,
+        "flip_y": true,
+        "flip_x": false
+      },
+      "nameplate": {
+        "x": 801,
+        "y": 352,
+        "w": 155,
+        "h": 65,
+        "flip_y": true,
+        "flip_x": false
+      },
+      "collar_front": {
+        "x": 491,
+        "y": 330,
+        "w": 207,
+        "h": 148,
+        "flip_y": true,
+        "mask_channel": "G"
+      },
+      "collar_back": {
+        "x": 809,
+        "y": 427,
+        "w": 123,
+        "h": 51,
+        "flip_y": true,
+        "mask_channel": "G"
+      },
+      "sleeve_cuff_left": {
+        "x": 18,
+        "y": 302,
+        "w": 197,
+        "h": 69,
+        "mask_channel": "R"
+      },
+      "sleeve_cuff_right": {
+        "x": 235,
+        "y": 302,
+        "w": 197,
+        "h": 69,
+        "mask_channel": "R"
+      }
+    },
+    "trim_mask": "assets/models/jersey_trim_mask.png",
+    "trim_mask_channels": {
+      "R": "sleeve cuffs (uniforms.*.sleeve_stripes)",
+      "G": "collar (uniforms.*.sleeve_stripes or jersey_numbers)"
+    }
+  },
+  "pants": {
+    "material": "pants",
+    "texture_size": [
+      512,
+      512
+    ],
+    "blank": "assets/models/pants_blank.jpg",
+    "stripe_mask": "assets/models/pants_stripe_mask.png",
+    "stripe_mask_note": "white = stripe (uniforms.*.pants_stripe), black = pants colour. Same pixel layout as the pants texture.",
+    "socks": {
+      "x": 0,
+      "y": 448,
+      "w": 512,
+      "h": 64,
+      "note": "the sock mesh samples this strip; fill it with uniforms.*.socks"
+    }
+  },
+  "helmet": {
+    "material": "helmet",
+    "note": "plain colour, no texture in the GLB. UVs are a spherical map: u runs around the helmet (0.5 = front, 0.75 = player's left side, 0.25 = player's right side, seam at the back), v runs bottom to top. To add decals, build a canvas, fill it with helmet_shell, draw the logo in the rects below and set it as material.map (flipY=false).",
+    "suggested_canvas": [
+      1024,
+      512
+    ],
+    "canvas_note": "use a 2:1 canvas so one pixel covers the same arc in u and v; draw logos with their own aspect (contain) inside the rect",
+    "decals": {
+      "left": {
+        "uv": [
+          0.68,
+          0.3,
+          0.82,
+          0.54
+        ],
+        "px": {
+          "x": 696,
+          "y": 154,
+          "w": 143,
+          "h": 123
+        },
+        "flip_x": true,
+        "note": "image right edge points to the back of the helmet; flip x so a logo faces forward"
+      },
+      "right": {
+        "uv": [
+          0.18,
+          0.3,
+          0.32,
+          0.54
+        ],
+        "px": {
+          "x": 184,
+          "y": 154,
+          "w": 143,
+          "h": 123
+        },
+        "flip_x": false,
+        "note": "image right edge points to the front of the helmet"
+      }
+    },
+    "decal_uv_note": "uv = [u0, v0_top, u1, v1_bottom] in glTF texture space (v down, same as canvas y / height)."
+  },
+  "facemask": {
+    "material": "facemask",
+    "note": "plain colour (uniforms.*.facemask). Includes the chin cup."
+  },
+  "misc": {
+    "material": "misc",
+    "note": "skin, shoes, arm sleeve, wristbands, visor. Not team painted."
+  }
+}
