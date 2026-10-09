@@ -43,6 +43,9 @@ footer{color:#5e6b7c;font-size:10px;margin-top:auto}
 .tvbug .pips{position:absolute;left:42px;bottom:4px;display:flex;gap:3px}.tvbug .pips::before{content:none}.tvbug .pip{display:block;width:12px;height:3px;background:var(--gold);border-radius:1px;transition:transform .45s ease-in,opacity .45s ease-in}.tvbug .pip.drop{transform:translateY(9px);opacity:0}
 .tvbug .sc.flash{animation:scflash .5s 3 alternate}@keyframes scflash{to{color:var(--gold);transform:scale(1.18)}}
 .teletag{position:absolute;z-index:4;right:12px;top:40px;background:#f2d21c;color:#0a0d12;font:900 11px ui-monospace,Menlo,monospace;letter-spacing:1px;padding:4px 8px;border-radius:3px;pointer-events:none}
+/* Throw buttons: fixed in one place (bottom right, where Juke and Dive appear after the catch), one per
+   receiver in read order; the tags over the receivers show which is which and are not tappable. */
+.rcvbar{position:absolute;z-index:7;right:16px;bottom:16px;display:grid;grid-template-columns:repeat(3,64px);gap:10px;direction:rtl}.rcvbar button{direction:ltr;width:64px;height:64px;min-height:0;padding:0;border-radius:50%;background:var(--gold);color:var(--ink);border:3px solid #14110a;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;box-shadow:0 4px 12px rgba(0,0,0,.55);touch-action:none;user-select:none;-webkit-user-select:none}.rcvbar button b{font:900 22px system-ui}.rcvbar button span{font:800 11px system-ui;margin-top:2px}.rcvbar button.held{transform:scale(.92);background:#fff}.rcvbar button.lob{background:#8fd3ff}
 /* Play result banner, lower-third style */
 .banner{position:absolute;z-index:5;left:50%;bottom:76px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;min-width:min(86%,440px);max-width:92%;background:linear-gradient(90deg,rgba(9,12,18,.95),rgba(20,26,38,.95));border-left:6px solid var(--gold);border-radius:6px;padding:9px 16px;box-shadow:0 8px 24px rgba(0,0,0,.5);animation:bannerin .35s ease-out;pointer-events:none}.banner[hidden]{display:none}.banner b{font:900 22px/1.05 system-ui,sans-serif;letter-spacing:.5px;text-transform:uppercase}.banner span{font-size:13px;color:#dfe6ee;margin-top:4px;text-align:center}
 @keyframes bannerin{from{transform:translate(-50%,16px);opacity:0}}
@@ -52,7 +55,7 @@ footer{color:#5e6b7c;font-size:10px;margin-top:auto}
 /* Player mode controls over the stage */
 .pad{position:absolute;inset:0;z-index:6;pointer-events:none}.stick{position:absolute;left:18px;bottom:84px;width:132px;height:132px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.12),rgba(255,255,255,.04));border:2px solid rgba(255,255,255,.35);pointer-events:auto;touch-action:none}.knob{position:absolute;left:50%;top:50%;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:rgba(255,255,255,.85);box-shadow:0 2px 10px rgba(0,0,0,.5)}
 .padbtns{position:absolute;right:18px;bottom:22px;display:flex;gap:12px;pointer-events:auto}.padbtn{width:78px;height:78px;border-radius:50%;font:900 15px system-ui;text-transform:uppercase;background:rgba(20,26,38,.85);border:2px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center}.padbtn small{font-size:9px;opacity:.6;margin-top:2px}
-.rcvbtns{position:absolute;inset:0;z-index:7;pointer-events:none}.rcv{position:absolute;transform:translate(-50%,-110%);pointer-events:auto;min-width:48px;min-height:48px;padding:4px 8px;border-radius:24px;background:var(--gold);color:var(--ink);border:2px solid #14110a;display:flex;flex-direction:column;align-items:center;line-height:1;box-shadow:0 3px 10px rgba(0,0,0,.5)}.rcv b{font-size:16px}.rcv.edge{opacity:.85;border-style:dashed}.rcv span{font-size:10px;font-weight:800}
+.rcvbtns{position:absolute;inset:0;z-index:7;pointer-events:none}.rcv{position:absolute;transform:translate(-50%,-100%);pointer-events:none;min-width:30px;min-height:30px;padding:2px 6px;border-radius:15px;background:var(--gold);color:var(--ink);border:2px solid #14110a;display:flex;flex-direction:column;align-items:center;line-height:1;box-shadow:0 3px 10px rgba(0,0,0,.5)}.rcv b{font-size:14px}.rcv span{display:none}.rcv.edge{opacity:.85;border-style:dashed}.rcv span{font-size:10px;font-weight:800}
 .pickrow{display:grid;gap:4px}.pickrow b{font-size:14px}.logostrip{display:flex;gap:6px;overflow-x:auto;padding:4px 2px 8px;scroll-snap-type:x proximity}.logobtn{flex:0 0 auto;width:56px;height:56px;padding:6px;border-radius:10px;background:#0b1018;scroll-snap-align:center}.logobtn img{width:100%;height:100%;object-fit:contain}.logobtn span{font:800 11px system-ui}.logobtn.on{background:var(--gold);border-color:var(--gold)}.logobtn:disabled{opacity:.25}
 .startbox{max-height:calc(100dvh - 32px);overflow-y:auto}
 .modepick{display:grid;grid-template-columns:1fr 1fr;gap:6px}.modepick button.on{background:var(--gold);color:var(--ink);border-color:var(--gold)}.modepick button small{font-size:10px;letter-spacing:.5px;text-transform:uppercase;opacity:.75}.modepick button.on small{color:var(--ink)}
@@ -66,6 +69,7 @@ footer{color:#5e6b7c;font-size:10px;margin-top:auto}
   .cards{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:6px;padding-bottom:2px}.card{flex:0 0 40%;scroll-snap-align:start;min-height:48px;padding:7px 9px}
   .editbar{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}#reads,#runTools{flex-wrap:nowrap}
   .tvbug{left:8px;right:8px;top:8px;bottom:auto;height:40px;font-size:12px}.tvbug .tm{min-width:0;flex:1;padding:0 6px 0 4px;gap:4px}.tvbug .blogo{width:24px;height:24px}.tvbug .ab{font-size:11px}.tvbug .sc{font-size:18px}.tvbug .pips{left:32px}.tvbug .gm,.tvbug .dd{padding:0 7px}.tvbug .gm b{font-size:14px}.tvbug .dd b{font-size:12px}
+  .rcvbar{right:10px;bottom:14px;grid-template-columns:repeat(3,58px);gap:8px}.rcvbar button{width:58px;height:58px}
   .ddbox{left:8px;top:56px;bottom:auto;height:30px}.ddbox b{font-size:16px}.ddbox span{font-size:10px}.strap{left:12px;bottom:14px}.strap b{font-size:22px}.strap span{font-size:12px}.teletag{top:84px;right:8px}
   .stick{bottom:22px}.camtag{top:56px;right:8px}.coach{top:56px}.banner{top:56px;bottom:auto;padding:6px 12px;min-width:0;width:calc(100% - 16px)}.banner b{font-size:17px}.banner span{font-size:11px;margin-top:2px}
 }
@@ -100,6 +104,7 @@ footer{color:#5e6b7c;font-size:10px;margin-top:auto}
     <div class="banner" id="banner" hidden><b id="bannerTitle"></b><span id="bannerText"></span></div>
     <div class="pad" id="pad" hidden><div class="stick" id="stick"><div class="knob" id="knob"></div></div><div class="padbtns" id="padBtns"><button id="jukeBtn" class="padbtn">Juke<small>J</small></button><button id="diveBtn" class="padbtn">Dive<small>K</small></button></div></div>
     <div class="rcvbtns" id="rcvBtns" hidden></div>
+    <div class="rcvbar" id="rcvBar" hidden></div>
     <div class="coach" id="coach"><span id="coachText"></span><button id="coachNext">Next</button><button id="coachSkip">Skip</button></div>
     <div class="pause" id="pause" hidden><b>Paused</b><button id="resume" class="primary">Resume</button></div>
   </section>
@@ -4505,7 +4510,7 @@ function routeAhead(p,T){const pts=p.routePoints;if(!pts||p.routeIndex>=pts.leng
 function isBreak(pts,i){const a=pts[i-1],b=pts[i],c=pts[i+1];if(!a||!c)return true;const ux=b.x-a.x,uy=b.y-a.y,vx=c.x-b.x,vy=c.y-b.y;return(ux*vx+uy*vy)/((Math.hypot(ux,uy)*Math.hypot(vx,vy))||1)<Math.cos(15*Math.PI/180);}
 function approach(v,w,max){const d=w-v;return Math.abs(d)<=max?w:v+Math.sign(d)*max;}
 function nearestSeparation(p,def){let d=Infinity;for(const q of def)d=Math.min(d,Math.hypot(p.x-q.x,p.y-q.y));return d;}
-function frameState(t,off,def,ball){return{t,players:off.concat(def).map(p=>({id:p.id,pos:p.pos,spot:p.spot,side:p.side,x:p.x,y:p.y,vx:p.vx,vy:p.vy,topSpeed:p.topSpeed,accel:p.accel,engaged:!!p.engaged})),ball:{x:ball.x,y:ball.y,h:ball.h,mode:ball.mode}};}
+function frameState(t,off,def,ball){return{t,players:off.concat(def).map(p=>({id:p.id,pos:p.pos,spot:p.spot,side:p.side,x:p.x,y:p.y,vx:p.vx,vy:p.vy,topSpeed:p.topSpeed,accel:p.accel,engaged:!!p.engaged})),ball:ball.mode==='flight'?{x:ball.x,y:ball.y,h:ball.h,mode:ball.mode,lx:ball.landX,ly:ball.landY,tl:ball.flight-ball.elapsed}:{x:ball.x,y:ball.y,h:ball.h,mode:ball.mode}};}
 function normalish(rng){return(rng()+rng()+rng()+rng()-2)*.95;}
 
 function makeDaily(date=utcDateString(),pick=null){
@@ -4609,6 +4614,7 @@ function createPlay(input){
       if(d.engaged){const dx=T.x-d.x,dy=T.y-d.y,l=Math.hypot(dx,dy)||1,push=((isRun?TUNE.runPushBase:TUNE.pushBase)+(d.strength-e.str)*TUNE.pushPer)/e.n;d.vx=dx/l*push;d.vy=dy/l*push;d.x+=d.vx*dt;d.y+=d.vy*dt;d.leverage+=dt*clamp(TUNE.shedBase+(d.strength+d.agility-e.str-e.agi)*TUNE.shedPer,.03,.9)*(isRun?TUNE.runShedScale:1)/e.n;if(d.leverage>=1)d.shed=true;}
       else steer(d,T.x,T.y,dt,T.s,!T.through);}}
   /* ---- AI brains: they read state and return controls; they never move anyone themselves. ---- */
+  let qbTook=false;
   function qbBrain(){if(!isPass||phase!=='held'||ball.mode!=='held'||outcome)return null;
     let tx=W/2,ty=yard-TUNE.dropDepth,near=null,nd=4;for(const r of def){if(r.engaged)continue;const q=Math.hypot(r.x-qb.x,r.y-qb.y);if(q<nd){nd=q;near=r;}}if(near&&t>.8){const dx=qb.x-near.x,dy=qb.y-near.y,l=Math.hypot(dx,dy)||1;tx=clamp(qb.x+dx/l*2,W/2-5,W/2+5);ty=clamp(qb.y+dy/l*2,yard-10,yard-3);}
     const c={target:{x:tx,y:ty}};
@@ -4620,7 +4626,9 @@ function createPlay(input){
     let hx=0,hy=1;for(const d of def){const dx=c.x-d.x,dy=c.y-d.y,q=Math.hypot(dx,dy);if(q>7||dy>1.5||d.engaged)continue;const w=1/Math.max(1,q*q);hx+=dx/q*w*TUNE.evade;hy+=dy/q*w*TUNE.evade*.35;}if(c.x<3)hx+=(3-c.x)*.3;if(c.x>W-3)hx-=(c.x-W+3)*.3;const l=Math.hypot(hx,hy)||1;return{target:{x:c.x+hx/l*5,y:c.y+Math.max(.2,hy/l)*5},arrive:true};}
   /* ---- Physics from controls ---- */
   function aimPoint(p,ctl,reach){if(ctl&&ctl.target)return ctl.target;if(ctl&&ctl.move){const m=ctl.move,l=Math.hypot(m[0],m[1]);if(l>.05)return{x:p.x+m[0]/Math.max(1,l)*reach,y:p.y+m[1]/Math.max(1,l)*reach};}return null;}
-  function stepQB(ctl){if(phase!=='held')return;const a=aimPoint(qb,ctl,3);if(a)steer(qb,clamp(a.x,.5,W-.5),a.y,dt,.9);else steer(qb,qb.x,qb.y,dt,.9);}
+  /* A human-controlled quarterback takes his drop by himself (as the AI does) until the player first
+     moves him; after that he goes only where the stick sends him. */
+  function stepQB(ctl,human){if(phase!=='held')return;if(human&&ctl&&ctl.move)qbTook=true;let a=aimPoint(qb,ctl,3);if(!a&&human&&!qbTook&&isPass&&qb.y>yard-TUNE.dropDepth+.15)a={x:W/2,y:yard-TUNE.dropDepth};if(a)steer(qb,clamp(a.x,.5,W-.5),a.y,dt,.9);else steer(qb,qb.x,qb.y,dt,.9);}
   function stepCarrier(ctl){const c=off[carrier];
     if(t-diveT<TUNE.diveTime){const h=Math.hypot(c.vx,c.vy)>.5?Math.atan2(c.vy,c.vx):Math.PI/2;c.vx=Math.cos(h)*TUNE.diveSpeed;c.vy=Math.sin(h)*TUNE.diveSpeed;c.x+=c.vx*dt;c.y+=c.vy*dt;}
     else if(diveT>=0&&t-diveT>=TUNE.diveTime){ball.x=c.x;ball.y=c.y;finish(complete?'complete':carrier===0?'scramble':c.y<yard?'loss':'gain','The ball carrier dove forward.');return;}
@@ -4647,7 +4655,7 @@ function createPlay(input){
         if(isPass&&carrier==null){for(const s of SPOTS){const i=SPOT_INDEX[s];if(blockRoute(s))continue;if(ball.mode==='flight'&&s===target&&t>=throwTime+TUNE.ballReaction){steer(off[i],ball.landX,ball.landY,dt,1,false);continue;}if(i===1&&t<rb.hold){rb.vx=rb.vy=0;continue;}stepRoute(off[i],t,dt);}}
         if(isRun&&phase==='handoff'){steer(qb,W/2-1,yard-3,dt,.7);steer(rb,W/2-1,yard-2.5,dt,.8);if(t>=TUNE.handoffTime)becomeCarrier(1);}
         else if(isRun){steer(qb,W/2-6,yard-5,dt,.5);for(const i of [2,3,5])if(off[i].blockTarget<0)steer(off[i],off[i].x,off[i].y+3,dt,.5);}
-        stepQB(ctl.qb);
+        stepQB(ctl.qb,!!controls);
         // A quarterback who carries the ball past the line is a runner.
         if(isPass&&phase==='held'&&ball.mode==='held'&&qb.y>yard)becomeCarrier(0,'The quarterback took off.');
         stepBlockers();if(carrier!=null)stepCarrier(ctl.carrier);if(!outcome)stepDefense();
@@ -4919,7 +4927,7 @@ async function loadPlayerModel(){
     const img={jBlank,pBlank,jMask,pMask},team=[paintTeam(KITS[0],homeLogo,img,U),paintTeam(KITS[1],awayLogo,img,U)];
     for(let i=0;i<22;i++){const side=i<11?0:1,kit=KITS[side],root=THREE.SkeletonUtils.clone(gltf.scene);root.scale.setScalar(MODEL.scale);
       const who=lineup&&lineup[i],last=who&&who.name?who.name.replace(/ (Jr\.|Sr\.|II|III|IV)$/,'').split(' ').slice(-1)[0]:'',jersey=paintJersey(kit,who?who.number:null,last,img,U);
-      root.traverse(o=>{if(!o.isMesh)return;o.frustumCulled=false;o.castShadow=true;const mats=[].concat(o.material).map(m=>{if(!['jersey','pants','helmet','facemask'].includes(m.name))return m;if(m.name==='facemask')return kitMaterial('facemask',{color:kit.facemask||'#888888',skinning:true});if(m.name==='helmet')return kitMaterial('helmet',{map:team[side].helmet,skinning:true});return kitMaterial(m.name,{map:m.name==='jersey'?jersey:team[side][m.name],skinning:true});});o.material=Array.isArray(o.material)?mats:mats[0];});
+      root.traverse(o=>{if(!o.isMesh)return;o.frustumCulled=false;o.castShadow=true;const mats=[].concat(o.material).map(m=>{if(m.name==='misc'&&m.map)return skinMaterial(m,skinToneFor((side?daily.opponent:daily.home).id+'|'+i));if(!['jersey','pants','helmet','facemask'].includes(m.name))return m;if(m.name==='facemask')return kitMaterial('facemask',{color:kit.facemask||'#888888',skinning:true});if(m.name==='helmet')return kitMaterial('helmet',{map:team[side].helmet,skinning:true});return kitMaterial(m.name,{map:m.name==='jersey'?jersey:team[side][m.name],skinning:true});});o.material=Array.isArray(o.material)?mats:mats[0];});
       const mixer=new THREE.AnimationMixer(root);scene.add(root);MODEL.players.push({root,mixer,action:null,clip:null,heading:i<11?0:Math.PI,lean:0,lastV:null,lastT:null,phaseOffset:((i*0.37)%1)});}
     try{buildSidelineFigures(gltf,img,U,team);}catch(e){}
     gltf.scene.traverse(o=>{if(o.isMesh)for(const m of [].concat(o.material))if(m.name==='misc'){m.roughness=.62;m.envMap=kitEnv();m.envMapIntensity=.3;m.needsUpdate=true;}});
@@ -4940,7 +4948,7 @@ function bakePose(gltf,clipName,t){const root=THREE.SkeletonUtils.clone(gltf.sce
   const parts={},v=new THREE.Vector3();root.traverse(m=>{if(!m.isSkinnedMesh)return;const src=m.geometry,n=src.attributes.position.count,pos=new Float32Array(n*3);for(let i=0;i<n;i++){m.boneTransform(i,v);v.applyMatrix4(m.matrixWorld);pos[i*3]=v.x;pos[i*3+1]=v.y;pos[i*3+2]=v.z;}
     const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));if(src.attributes.uv)g.setAttribute('uv',src.attributes.uv);if(src.index)g.setIndex(src.index);g.computeVertexNormals();parts[[].concat(m.material)[0].name]={geo:g,mat:[].concat(m.material)[0]};});return parts;}
 function buildSidelineFigures(gltf,img,U,team){const parts=bakePose(gltf,'idle',.6),r=mulberry32(hash32('bench|'+daily.home.id)),o=new THREE.Object3D(),lin=c=>new THREE.Color(c).convertSRGBToLinear();
-  const make=(name,mat,spots)=>{if(!parts[name]||!spots.length)return;const im=new THREE.InstancedMesh(parts[name].geo,mat,spots.length);spots.forEach((sp,i)=>{o.position.set(sp.x,0,sp.z);o.rotation.set(0,sp.yaw,0);o.scale.setScalar(sp.s);o.updateMatrix();im.setMatrixAt(i,o.matrix);});im.castShadow=true;im.receiveShadow=true;scene.add(im);SIDELINE.meshes.push(im);};
+  const make=(name,mat,spots)=>{if(name==='misc'&&mat&&mat.map&&!mat._split){const by={};spots.forEach((sp,j)=>{const k=skinToneFor('bench|'+sp.x.toFixed(2)+'|'+sp.z.toFixed(2));(by[k]=by[k]||[]).push(sp);});for(const [k,list] of Object.entries(by)){const tm=skinMaterial(mat,+k);tm._split=true;make('misc',tm,list);}return;}if(!parts[name]||!spots.length)return;const im=new THREE.InstancedMesh(parts[name].geo,mat,spots.length);spots.forEach((sp,i)=>{o.position.set(sp.x,0,sp.z);o.rotation.set(0,sp.yaw,0);o.scale.setScalar(sp.s);o.updateMatrix();im.setMatrixAt(i,o.matrix);});im.castShadow=true;im.receiveShadow=true;scene.add(im);SIDELINE.meshes.push(im);};
   const kitMats=(kit,side,jerseyKit)=>({misc:parts.misc.mat,jersey:kitMaterial('jersey',{map:paintJersey(jerseyKit||kit,null,'',img,U)}),pants:kitMaterial('pants',{map:team[side].pants}),helmet:kitMaterial('helmet',{map:team[side].helmet}),facemask:kitMaterial('facemask',{color:kit.facemask||'#888888'})});
   for(const [x,side] of [[33.5,1],[-33.5,0]]){const kit=KITS[side],sg=Math.sign(x),spots=[];
     // players: six loose groups between the 30s, mostly facing the field
@@ -4981,6 +4989,19 @@ function kitMaterial(name,{map=null,color=null,skinning=false}={}){const env=kit
   else{m=new THREE.MeshStandardMaterial({map,color:col,roughness:.8,metalness:0,envMap:env,envMapIntensity:.22,normalMap:MESH_NORMAL,normalScale:new THREE.Vector2(.45,.45)});
     m.onBeforeCompile=sh=>{sh.fragmentShader=sh.fragmentShader.replace('#include <normal_fragment_maps>','vec3 mapN=texture2D(normalMap,vUv*vec2(70.,35.)).xyz*2.-1.;mapN.xy*=normalScale;normal=perturbNormal2Arb(-vViewPosition,normal,mapN,faceDirection);');};}
   m.name=name;m.skinning=skinning;return m;}
+/* Skin tones. The model's skin texture is one light tone; tonedSkin() repaints its skin, face and
+   hair pixels to a target tone keeping their shading (luminance against the texture's own skin
+   average), and leaves the eyes, teeth, visor strip and the sleeve/shoe swatches alone. Each player gets
+   a tone from a seeded hash of his team and slot, weighted toward the league's range of complexions;
+   the tone does not depend on the player's name. */
+const SKIN_TONES=[['#eac0a0',.10],['#cf9a74',.12],['#ad7550',.16],['#8a5636',.20],['#6b3f25',.22],['#4e2c1a',.20]],_skinCache={};
+function tonedSkin(map,k){if(_skinCache[k])return _skinCache[k];const img=map.image,w=img.width,h=img.height,c=canvasOf(w,h),g=c.getContext('2d');g.drawImage(img,0,0);const d=g.getImageData(0,0,w,h),p=d.data,lum=(r,gg,b)=>.3*r+.59*gg+.11*b;
+  const skin=(x,y,r,gg,b)=>y<h*.875&&!(x>w*.49&&x<w*.82&&y>h*.69)&&r>=gg&&gg>=b*.9&&r-b>18&&r>40;let sr=0,sg=0,sb=0,n=0;for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){const i=(y*w+x)*4;if(skin(x,y,p[i],p[i+1],p[i+2])&&lum(p[i],p[i+1],p[i+2])>140){sr+=p[i];sg+=p[i+1];sb+=p[i+2];n++;}}
+  const base=lum(sr/n,sg/n,sb/n),t=new THREE.Color(SKIN_TONES[k][0]),tr=t.r*255,tg=t.g*255,tb=t.b*255;
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=(y*w+x)*4;if(!skin(x,y,p[i],p[i+1],p[i+2]))continue;const l=Math.min(1.35,lum(p[i],p[i+1],p[i+2])/base);p[i]=Math.min(255,tr*l);p[i+1]=Math.min(255,tg*l);p[i+2]=Math.min(255,tb*l);}
+  g.putImageData(d,0,0);const tex=new THREE.CanvasTexture(c);tex.flipY=map.flipY;tex.encoding=map.encoding;tex.anisotropy=4;return _skinCache[k]=tex;}
+function skinToneFor(seed){const r=mulberry32(hash32('skin|'+seed))();let a=0;for(let k=0;k<SKIN_TONES.length;k++){a+=SKIN_TONES[k][1];if(r<a)return k;}return SKIN_TONES.length-1;}
+function skinMaterial(m,k){const key='m'+k;m._toned=m._toned||{};if(m._toned[key])return m._toned[key];const c=m.clone();c.map=tonedSkin(m.map,k);c.roughness=.62;const env=kitEnv();if(env){c.envMap=env;c.envMapIntensity=.3;}c.needsUpdate=true;return m._toned[key]=c;}
 function playClip(P,name,{timeScale=1,once=false,offset=null,hold=null,fade=ANIM.fade,speed=0}={}){
   if(name==='loco'){P.locoV=speed;if(P.clip==='loco')return;fadeOutCurrent(P,fade);if(!P.loco)P.loco={acts:LOCO.names.map(n=>P.mixer.clipAction(MODEL.clips[n])),phase:P.phaseOffset};
     const w=locoWeights(speed);P.loco.acts.forEach((a,k)=>{a.reset();a.setLoop(THREE.LoopRepeat,Infinity);a.timeScale=0;a.weight=w[k];a.play();if(fade>0)a.fadeIn(fade);});P.action=null;P.clip='loco';P.hold=null;P.downAt=null;P.rising=false;return;}
@@ -5042,10 +5063,15 @@ function animateModels(frame){if(!MODEL.ready||!frame)return;const ctx=MODEL.ctx
     if(P.fireAt!=null&&ctx.phase==='live'&&frame.t<.45){P.lean=Math.max(P.lean,.42*(1-frame.t/.45));P.root.rotation.set(P.lean,P.heading,0,'YXZ');}});}
 /* The ball rides in the holder's right hand while it is held or carried. Runs after the
    mixers update so the hand bone is current. Holder: QB while held, the sim's carrier after. */
-function attachBall(){if(!MODEL.ready||!currentFrame)return;const mode=currentFrame.ball.mode,r=MODEL.ctx.result;if(mode!=='held'&&mode!=='carried')return;let idx=mode==='held'?0:(r&&r.carrier!=null?r.carrier:1);
+function attachBall(){if(!MODEL.ready||!currentFrame)return;const mode=currentFrame.ball.mode,r=MODEL.ctx.result;
+  // Catch, display only: the sim catches a ball that lands within 1.2 yd of the receiver, so the drawn
+  // ball eases into his hands over the last 0.25 s of flight when he is in position to catch it.
+  if(mode==='flight'){const b=currentFrame.ball;if(!r||!r.target||b.tl==null||b.tl>.25)return;const i=SPOT_INDEX[r.target],q=currentFrame.players[i],P=MODEL.players[i];if(!P||Math.hypot(q.x-b.lx,q.y-b.ly)>TUNE.catchRadius+.3)return;
+    P.root.updateMatrixWorld(true);const L=bone(P,'mixamorigLeftHand'),R2=bone(P,'mixamorigRightHand');if(!L||!R2)return;const mid=L.getWorldPosition(new THREE.Vector3()).add(R2.getWorldPosition(new THREE.Vector3())).multiplyScalar(.5);const k=clamp(1-b.tl/.25,0,1),w=k*k*(3-2*k);ballMesh.position.lerp(mid,w);return;}
+  if(mode!=='held'&&mode!=='carried')return;let idx=mode==='held'?0:(r&&r.carrier!=null?r.carrier:1);
   // Handoff, display only: the sim passes the ball at about 2.4 yd, so the ball stays in the
   // quarterback's hand until the back reaches him (under 0.9 yd, or 0.3 s after the exchange).
-  if(mode==='carried'&&MODEL.handoffT!=null&&currentFrame.t-MODEL.handoffT<.3){const q=currentFrame.players[0],c=currentFrame.players[idx];if(Math.hypot(q.x-c.x,q.y-c.y)>.9)idx=0;}
+  if(mode==='carried'&&MODEL.handoffT!=null&&!(r&&r.throwTime!=null)&&currentFrame.t-MODEL.handoffT<.3){const q=currentFrame.players[0],c=currentFrame.players[idx];if(Math.hypot(q.x-c.x,q.y-c.y)>.9)idx=0;}
   const P=MODEL.players[idx];if(!P)return;if(!P.hand)P.root.traverse(o=>{if(o.name==='mixamorigRightHand')P.hand=o;});if(!P.hand)return;P.root.updateMatrixWorld(true);P.hand.getWorldPosition(ballMesh.position);}
 /* Getup: no getup clip, so a player who is down sits up first (blends into the seated frame of
    the fall clip, 'sit', 0.55 s), then blends into the crouch-to-stand end of the roll clip (from
@@ -5063,7 +5089,7 @@ function swingBone(b,axis,angle){if(!b||!angle)return;b.getWorldQuaternion(_q);_
 function applyOverrides(dt){const f=currentFrame;if(!f)return;const QB=MODEL.players[0],r=MODEL.ctx.result,runPlay=(r&&r.playKind)?r.playKind==='run':cards[card]&&cards[card].kind==='run';
   // Handoff
   const ci=r&&r.carrier!=null?r.carrier:1,RB=MODEL.players[ci],qp=f.players[0],rp=f.players[ci];
-  if(f.ball.mode==='carried'&&MODEL.handoffT==null)MODEL.handoffT=f.t;const exch=f.ball.mode==='held'?Math.hypot(qp.x-rp.x,qp.y-rp.y)<3.6:MODEL.handoffT!=null&&f.t-MODEL.handoffT<.35;
+  if(f.ball.mode==='carried'&&MODEL.handoffT==null&&!(r&&r.throwTime!=null))MODEL.handoffT=f.t;/* a handoff, never a catch */const exch=f.ball.mode==='held'?Math.hypot(qp.x-rp.x,qp.y-rp.y)<3.6:MODEL.handoffT!=null&&f.t-MODEL.handoffT<.35;
   const want=MODEL.ctx.phase==='live'&&runPlay&&exch?1:0;QB.handW=clamp((QB.handW||0)+(want?1:-1)*dt/(want?.18:.3),0,1);
   if(QB.handW>0&&RB){QB.root.updateMatrixWorld(true);RB.root.getWorldPosition(_v2);const tgt=_v2.clone().add(new THREE.Vector3(Math.sin(RB.heading)*.25,1.05,Math.cos(RB.heading)*.25));const e=QB.handW*QB.handW*(3-2*QB.handW);aimBone(bone(QB,'mixamorigRightArm'),tgt,e*.9);aimBone(bone(QB,'mixamorigRightForeArm'),tgt,e*.9);}
   // Kick
@@ -5136,11 +5162,17 @@ function pickStation(z){return CAM.stations.reduce((a,b)=>Math.abs(b-z)<Math.abs
    quarterback holds it, the frame leads downfield by 14% of its width, leaving room for the routes. */
 function cameraFocus(){const f=currentFrame;if(!f)return new THREE.Vector3(0,0,drive.yard);const p=new THREE.Vector3(wx(f.ball.x),0,f.ball.y),D=DIRECTOR;
   if(D.lastBall&&f.t>D.lastBall.t){const dt=f.t-D.lastBall.t;D.vel.set((p.x-D.lastBall.x)/dt,0,(p.z-D.lastBall.z)/dt);}else if(!D.lastBall||f.t<D.lastBall.t)D.vel.set(0,0,0);D.lastBall={x:p.x,z:p.z,t:f.t};
-  const lead=D.vel.clone().multiplyScalar(CAM.leadAhead);if(lead.length()>10)lead.setLength(10);p.add(lead);if(f.ball.mode==='held')p.z+=CAM.leadHeld*broadcastAcross();return p;}
+  const lead=D.vel.clone().multiplyScalar(CAM.leadAhead);if(lead.length()>10)lead.setLength(10);p.add(lead);const pf=pocketFrame();if(pf){p.z=pf.z;p.x=wx(pf.x)/.55;}else if(f.ball.mode==='held')p.z+=CAM.leadHeld*broadcastAcross();return p;}
 /* Yards across the frame at the look point that put a standing player at playerFrac of the stage
    height, but never under 14.5 yards across, so a phone in portrait still sees the play develop.
    Telestrator replays frame at least 26 yards so the whole drawn path fits. */
-function broadcastAcross(){const W=Math.max(1,renderW),H=Math.max(1,renderH),px=clamp(CAM.playerFrac*H,CAM.minPlayerPx,CAM.maxPlayerPx);return clamp(W/(px/CAM.playerYd),cameraMode==='replay'?26:CAM.minAcross,cameraMode==='replay'?34:CAM.maxAcross);}
+/* Player mode, ball in the QB's hands: the frame must hold the quarterback and every receiver he can
+   throw to, so it centres on them and widens to their spread (plus 7 yards), up to 34 yards. */
+function pocketFrame(){const f=currentFrame;if(MODE!=='player'||!PAD.state||cameraMode!=='live'||!f||f.ball.mode!=='held')return null;let lo=f.players[0].y,hi=lo,xl=f.players[0].x,xh=xl;for(const i of [1,2,3,4,5]){const q=f.players[i];if(!q)continue;lo=Math.min(lo,q.y);hi=Math.max(hi,q.y);xl=Math.min(xl,q.x);xh=Math.max(xh,q.x);}
+  // The screen's height looks along the field's width, foreshortened by the camera's 27-degree tilt (sin .45).
+  const aspect=renderW/Math.max(1,renderH),byWidth=(xh-xl+7)*aspect*.45;return{z:(lo+hi)/2,x:(xl+xh)/2,span:Math.min(40,Math.max(hi-lo+7,byWidth))};}
+function broadcastAcross(){const pf=pocketFrame();if(pf)return Math.max(pf.span,baseAcross());return baseAcross();}
+function baseAcross(){const W=Math.max(1,renderW),H=Math.max(1,renderH),px=clamp(CAM.playerFrac*H,CAM.minPlayerPx,CAM.maxPlayerPx);return clamp(W/(px/CAM.playerYd),cameraMode==='replay'?26:CAM.minAcross,cameraMode==='replay'?34:CAM.maxAcross);}
 function shotPose(shot,focus,aspect){const out={look:new THREE.Vector3(),pos:new THREE.Vector3(),fov:22};
   if(shot==='broadcast'){out.pos.set(CAM.stationX,CAM.stationY,camState.station);out.look.set(focus.x*.55,0,focus.z);const d=out.pos.distanceTo(out.look);out.fov=2*Math.atan(broadcastAcross()/2/(d*aspect))*180/Math.PI;}
   else if(shot==='iso'){const I=CAM.iso;out.look.set(focus.x,1,focus.z+1.5);out.pos.set(I.x,I.y,focus.z-I.back);const d=out.pos.distanceTo(out.look),across=aspect<1?I.acrossPortrait:I.across;out.fov=Math.max(I.minFov,2*Math.atan(across/2/(d*aspect))*180/Math.PI);}
@@ -5383,7 +5415,7 @@ const coachMessages=['Pick one of the six play cards.','Drag a receiver on the f
 function updateCoach(){const el=$('coach');if(coachStep>=coachMessages.length){el.hidden=true;return;}el.hidden=false;$('coachText').textContent=coachMessages[coachStep];$('coachNext').textContent=coachStep===coachMessages.length-1?'Done':'Next';}
 function advanceCoach(step){if(coachStep<step){coachStep=step;updateCoach();}}
 function refresh(){hud();clearTele();showStrap(null,false);currentFrame=formationFrame();updatePlayers(currentFrame);updateMarkers();setCamera('draw');showDD(true);rebuildRoutes();renderEdit();updateFourth();$('status').textContent=drive.over?'Drive over: '+drive.result+'. Refresh for a new run.':'Card '+(card+1)+' of 6: '+cards[card].name+'. Adjust it or tap Snap.';$('snap').disabled=drive.over||playing||paused;$('deal').disabled=playing||paused;$('replay').disabled=!last||playing||paused;updateSpike();}
-function betweenFrames(a,b,t){if(!b)return a;return{t:a.t+(b.t-a.t)*t,ball:{mode:t<.5?a.ball.mode:b.ball.mode,x:a.ball.x+(b.ball.x-a.ball.x)*t,y:a.ball.y+(b.ball.y-a.ball.y)*t,h:(a.ball.h||1.7)+((b.ball.h||1.7)-(a.ball.h||1.7))*t},players:a.players.map((p,i)=>{const q=b.players[i];return{...p,x:p.x+(q.x-p.x)*t,y:p.y+(q.y-p.y)*t};})};}
+function betweenFrames(a,b,t){if(!b)return a;return{t:a.t+(b.t-a.t)*t,ball:{mode:t<.5?a.ball.mode:b.ball.mode,x:a.ball.x+(b.ball.x-a.ball.x)*t,y:a.ball.y+(b.ball.y-a.ball.y)*t,h:(a.ball.h||1.7)+((b.ball.h||1.7)-(a.ball.h||1.7))*t,lx:a.ball.lx,ly:a.ball.ly,tl:a.ball.tl!=null?a.ball.tl-(b.t-a.t)*t:undefined},players:a.players.map((p,i)=>{const q=b.players[i];return{...p,x:p.x+(q.x-p.x)*t,y:p.y+(q.y-p.y)*t};})};}
 /* Frames are sim states 1/60 s apart. The first rAF timestamp can be earlier than the moment
    the animation was scheduled, so the clock starts on the first tick and never runs negative. */
 /* Frames are sim states 1/60 s apart. The first rAF timestamp can be earlier than the moment
@@ -5494,18 +5526,20 @@ function sampleControls(S){const c=S.controlled(),mv=currentMove(),ctl={qb:null,
   if(c.carrier){ctl.carrier={};if(mv)ctl.carrier.move=mv;if(PAD.juke){const f=S.frames.at(-1).players[S.carrier];let side=PAD.juke;if(mv){const cr=f.vx*mv[1]-f.vy*mv[0];if(Math.abs(cr)>.05)side=Math.sign(cr);}ctl.carrier.juke=side;PAD.juke=0;}if(PAD.dive){ctl.carrier.dive=true;PAD.dive=false;}if(!mv&&!ctl.carrier.juke&&!ctl.carrier.dive)ctl.carrier=null;}
   return ctl;}
 function throwTo(spot,heldMs){if(!PAD.state||!PAD.state.controlled().qb)return;PAD.pendingThrow={spot,kind:heldMs>=280?'lob':'bullet'};}
-function receiverButtons(S){const box=$('rcvBtns');if(!S||!S.controlled().qb){box.hidden=true;return;}box.hidden=false;const f=S.frames.at(-1),order=S.receiverSpots().sort((a,b)=>{const ra=S.play.reads.indexOf(a),rb=S.play.reads.indexOf(b);return(ra<0?9:ra)-(rb<0?9:rb);});
-  if(box.dataset.order!==order.join('')){box.innerHTML='';order.forEach((spot,k)=>{const b=document.createElement('button');b.className='rcv';b.dataset.spot=spot;const n=lineup&&lineup[SPOT_INDEX[spot]];b.innerHTML=`<b>${k+1}</b><span>${n&&n.number!=null?'#'+n.number:spot}</span>`;b.onpointerdown=e=>{e.preventDefault();PAD.pressT[spot]=performance.now();};b.onpointerup=e=>{e.preventDefault();throwTo(spot,performance.now()-(PAD.pressT[spot]||performance.now()));};box.appendChild(b);});box.dataset.order=order.join('');}
-  const rect=canvas.getBoundingClientRect(),top=$('tvbug').getBoundingClientRect().bottom-rect.top;for(const b of box.children){const p=f.players[SPOT_INDEX[b.dataset.spot]],v=new THREE.Vector3(wx(p.x),3.1,p.y).project(activeCamera);let x=(v.x+1)/2*rect.width,y=(1-v.y)/2*rect.height;
-    // Receivers outside the frame keep a button pinned to the edge, so every read stays tappable.
-    const bug=$('tvbug').getBoundingClientRect(),bugTop=bug.top-rect.top,minY=Math.max(56,rect.width<900&&rect.height>520?top+56:56),maxY=rect.height-30,off=x<30||x>rect.width-30||y<minY||y>maxY||v.z>1;x=clamp(x,30,rect.width-30);y=clamp(y,minY,maxY);if(y>bugTop-30&&x<bug.right-rect.left+30)y=bugTop-30;b.classList.toggle('edge',off);b._x=x;b._y=y;}
-  // Keep buttons from stacking: push later ones along until they clear the earlier ones by 52 px.
-  const placed=[];for(const b of box.children){let x=b._x,y=b._y;for(let k=0;k<6;k++){const hit=placed.find(q=>Math.hypot(q[0]-x,q[1]-y)<52);if(!hit)break;if(y>rect.height*.5)y=hit[1]-54;else y=hit[1]+54;if(x>rect.width-40||x<40){}else x+=(x<hit[0]?-1:1)*20;}placed.push([x,y]);b.style.left=x+'px';b.style.top=y+'px';}}
+/* Fixed throw buttons, in read order. A quick tap is a bullet, a press of 280 ms or more a lob; the
+   button turns white while held so the lob is visible. */
+function buildThrowBar(order){const bar=$('rcvBar');bar.innerHTML='';order.forEach((spot,k)=>{const b=document.createElement('button');b.dataset.spot=spot;const n=lineup&&lineup[SPOT_INDEX[spot]];b.innerHTML=`<b>${k+1}</b><span>${n&&n.number!=null?'#'+n.number:spot}</span>`;b.setAttribute('aria-label','Throw to receiver '+(k+1));
+  b.onpointerdown=e=>{e.preventDefault();PAD.pressT[spot]=performance.now();b.classList.add('held');clearTimeout(b._t);b._t=setTimeout(()=>b.classList.add('lob'),280);};
+  const up=e=>{e.preventDefault();if(!b.classList.contains('held'))return;b.classList.remove('held','lob');throwTo(spot,performance.now()-(PAD.pressT[spot]||performance.now()));};b.onpointerup=up;b.onpointercancel=()=>b.classList.remove('held','lob');bar.appendChild(b);});}
+function receiverButtons(S){const box=$('rcvBtns'),bar=$('rcvBar');if(!S||!S.controlled().qb){box.hidden=bar.hidden=true;return;}box.hidden=bar.hidden=false;const f=S.frames.at(-1),order=S.receiverSpots().sort((a,b)=>{const ra=S.play.reads.indexOf(a),rb=S.play.reads.indexOf(b);return(ra<0?9:ra)-(rb<0?9:rb);});
+  if(box.dataset.order!==order.join('')){box.innerHTML='';order.forEach((spot,k)=>{const b=document.createElement('button');b.className='rcv';b.dataset.spot=spot;const n=lineup&&lineup[SPOT_INDEX[spot]];b.innerHTML=`<b>${k+1}</b><span>${n&&n.number!=null?'#'+n.number:spot}</span>`;box.appendChild(b);});box.dataset.order=order.join('');buildThrowBar(order);}
+  // Tags: a small number over each receiver, matching his throw button; hidden while he is off screen.
+  const rect=canvas.getBoundingClientRect();for(const b of box.children){const p=f.players[SPOT_INDEX[b.dataset.spot]],v=new THREE.Vector3(wx(p.x),2.6,p.y).project(activeCamera),x=(v.x+1)/2*rect.width,y=(1-v.y)/2*rect.height,off=v.z>1||x<8||x>rect.width-8||y<8||y>rect.height-8;b.hidden=off;b.style.left=x+'px';b.style.top=y+'px';}}
 /* Gold ring on the turf under the player you control. */
 const ctlRing=new THREE.Mesh(new THREE.RingGeometry(.75,1,32),new THREE.MeshBasicMaterial({color:0xffd21a,transparent:true,opacity:.9,toneMapped:false,depthWrite:false,side:THREE.DoubleSide}));ctlRing.rotation.x=-Math.PI/2;ctlRing.position.y=.07;ctlRing.visible=false;scene.add(ctlRing);
 function updateRing(S){const c=S&&S.controlled(),i=c&&(c.qb?0:c.carrier?S.carrier:null);if(i==null){ctlRing.visible=false;return;}const p=S.frames.at(-1).players[i];ctlRing.visible=true;ctlRing.position.x=wx(p.x);ctlRing.position.z=p.y;const k=1+.12*Math.sin(performance.now()/120);ctlRing.scale.set(k,k,k);}
 let liveHint='';function setLiveStatus(S){const c=S.controlled(),h=c.qb?'You have the ball. Move with the stick or arrows; tap a gold receiver (or 1–5) to throw. Hold for a lob.':c.carrier?'Run! Steer with the stick. Juke (J) to shake a tackler, Dive (K) to finish forward.':'Ball in the air.';if(h!==liveHint){liveHint=h;$('status').textContent=h;}}
-function setPadVisible(on){$('pad').hidden=!on;if(!on){ctlRing.visible=false;liveHint='';}$('padBtns').hidden=true;if(!on){$('rcvBtns').hidden=true;PAD.stick=[0,0];}}
+function setPadVisible(on){$('pad').hidden=!on;if(!on){ctlRing.visible=false;liveHint='';}$('padBtns').hidden=true;if(!on){$('rcvBtns').hidden=true;$('rcvBar').hidden=true;PAD.stick=[0,0];}}
 /* ---- The live loop ---- */
 function runLivePlay(play){const input=playInput(play),S=createPlay(input);PAD.state=S;PAD.pendingThrow=null;PAD.juke=0;PAD.dive=false;$('rcvBtns').dataset.order='';last=null;playing=true;updateSpike();$('snap').disabled=$('deal').disabled=$('replay').disabled=true;startBlend();setAnimPhase('live',S.live());setPadVisible(true);Sound.crowd(.15);
   let prev=null,acc=0,caught=false;function loop(now){if(prev===null)prev=now;if(paused){prev=now;requestAnimationFrame(loop);return;}acc+=Math.min(.1,(now-prev)/1000);prev=now;
